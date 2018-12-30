@@ -1,0 +1,11 @@
+section-row {
+    height: 200px;
+    display: block;
+    background-color: $body-color;
+}
+
+@include media-breakpoint-down(md) {
+    section-row {
+        height: 100px;
+    }
+}
