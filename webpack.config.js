@@ -2,29 +2,29 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin")
-
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 // const sassResources = require("./src/scss/resources/resources");
+
 // the path(s) that should be cleaned
-let pathsToClean = [
-    "dist",
-    "build"
-]
+const pathsToClean = [
+    "dist"
+];
 
 // the clean options to use
-let cleanOptions = {
+const cleanOptions = {
     root: __dirname,
     //exclude: ["shared.js"],
     verbose: true,
     dry: false
-}
+};
 
 module.exports = {
     mode: "development",
     entry: [
-        //"font-awesome-loader",
-        //"bootstrap-loader",
-        "./src/index.js"
+        "bootstrap-loader/extractStyles",
+        "./src/scss/app.scss",
+        "@fortawesome/fontawesome-free/js/all.js",
+        "./src/index.ts"
     ],
     output: {
         filename: "./js/[name].bundle.js",
@@ -48,7 +48,7 @@ module.exports = {
         splitChunks: {
             cacheGroups: {
                 styles: {
-                    name: "styles/styles",
+                    name: "main",
                     test: /\.scss$/,
                     chunks: "all",
                     enforce: true
@@ -77,10 +77,8 @@ module.exports = {
                             resources: [
                                 // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/regular.scss"),
                                 // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"),
-                                path.resolve(__dirname, "node_modules/bootstrap/scss/bootstrap.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_functions.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_variables.scss"),
-                                path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
                                 path.resolve(__dirname, "src/scss/resources.scss"),
                             ]
@@ -111,15 +109,15 @@ module.exports = {
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: "[name].css",
-            chunkFilename: "[id].css"
+            filename: "styles/[name].css",
+            chunkFilename: "styles/[id].css"
         }),
         new HtmlWebpackPlugin({
             title: "Webpack Demo",
             minify: {
                 collapseWhitespace: false
             },
-            template: "index.html",
+            template: "src/index.html",
             // filename: "index.html"
         }),
         new webpack.ProvidePlugin({

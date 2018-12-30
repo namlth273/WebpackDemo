@@ -6,18 +6,18 @@
 bootstrapVersion: 4
 
 # Webpack loaders, order matters
+
 env:
   development:
-    extractStyles: false
+    #extractStyles: true
     styleLoaders:
-      - style-loader
-      #- file-loader
+      #- style-loader
       - css-loader
       - sass-loader
       #- postcss-loader
       #- sass-resources-loader?resources=src/scss/resources.scss
   production:
-    extractStyles: true
+    #extractStyles: true
     styleLoaders:
       - css-loader
       - sass-loader
@@ -64,7 +64,7 @@ env:
 # Import your custom styles here. You have access to all the bootstrap variables. If you require
 # your sass files separately, you will not have access to the bootstrap variables, mixins, clases, etc.
 # Usually this endpoint-file contains list of @imports of your application styles.
-# appStyles: ./app/styles/app-bs4.scss
+#appStyles: ./src/scss/app.scss
 
 ### Bootstrap styles
 styles:
