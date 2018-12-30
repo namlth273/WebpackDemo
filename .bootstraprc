@@ -11,6 +11,7 @@ env:
     extractStyles: false
     styleLoaders:
       - style-loader
+      #- file-loader
       - css-loader
       - sass-loader
       #- postcss-loader

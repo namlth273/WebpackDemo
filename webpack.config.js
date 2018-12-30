@@ -1,49 +1,86 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin")
+
 // const sassResources = require("./src/scss/resources/resources");
+// the path(s) that should be cleaned
+let pathsToClean = [
+    "dist",
+    "build"
+]
+
+// the clean options to use
+let cleanOptions = {
+    root: __dirname,
+    //exclude: ["shared.js"],
+    verbose: true,
+    dry: false
+}
 
 module.exports = {
     mode: "development",
     entry: [
-        "font-awesome-loader",
-        "bootstrap-loader",
+        //"font-awesome-loader",
+        //"bootstrap-loader",
         "./src/index.js"
     ],
+    output: {
+        filename: "./js/[name].bundle.js",
+        path: path.resolve(__dirname, "dist")
+    },
+    devtool: "source-map",
+    resolve: {
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: [".ts", ".tsx", ".js"]
+    },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         //compress: true,
         //port: 9000,
         stats: "errors-only",
         //open: true,
-        //writeToDisk: true,
+        writeToDisk: true,
         hot: true
     },
-    devtool: "source-map",
-    output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, "dist")
-        // path: __dirname
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: "styles/styles",
+                    test: /\.scss$/,
+                    chunks: "all",
+                    enforce: true
+                }
+            }
+        }
     },
     module: {
         rules: [{
+                test: /\.tsx?$/,
+                use: "ts-loader",
+                exclude: /node_modules/
+            },
+            {
                 test: /\.scss$/,
-                use: [{
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader"
-                    },
-                    {
-                        loader: "sass-loader"
-                    },
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    // "style-loader",
+                    //"file-loader",
+                    "css-loader",
+                    "sass-loader",
                     {
                         loader: "sass-resources-loader",
                         options: {
                             // resources: sassResources
                             resources: [
+                                // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/regular.scss"),
+                                // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"),
+                                path.resolve(__dirname, "node_modules/bootstrap/scss/bootstrap.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_functions.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_variables.scss"),
+                                path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
                                 path.resolve(__dirname, "src/scss/resources.scss"),
                             ]
@@ -51,18 +88,32 @@ module.exports = {
                     }
                 ]
             },
+            // {
+            //     test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+            //     use: "url-loader?limit=10000",
+            // },
             {
-                test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: "url-loader?limit=10000",
-            },
-            {
-                test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-                use: "file-loader",
+                test: /\.(ttf|eot|svg|woff|woff2)(\?[\s\S]+)?$/,
+                use: [{
+                    loader: "file-loader",
+                    options: {
+                        name: "[name].[ext]",
+                        outputPath: "fonts/",
+                        publicPath: "../fonts/"
+                    }
+                }]
             },
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new webpack.HotModuleReplacementPlugin(),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
         new HtmlWebpackPlugin({
             title: "Webpack Demo",
             minify: {
