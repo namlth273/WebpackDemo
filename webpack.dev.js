@@ -9,7 +9,7 @@ module.exports = merge(common, {
         filename: "./js/[name].bundle.js",
     },
     module: {
-        
+
         rules: [{
             test: /\.scss$/,
             use: [
@@ -20,10 +20,13 @@ module.exports = merge(common, {
                     loader: "sass-resources-loader",
                     options: {
                         resources: [
+                            path.resolve(__dirname, "src/scss/_variables.scss"),
+                            path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/solid.scss"),
+                            // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/regular.scss"),
+                            // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"),
                             path.resolve(__dirname, "node_modules/bootstrap/scss/_functions.scss"),
                             path.resolve(__dirname, "node_modules/bootstrap/scss/_variables.scss"),
                             path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
-                            path.resolve(__dirname, "src/scss/resources.scss"),
                         ]
                     }
                 },

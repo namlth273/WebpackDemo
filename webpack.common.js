@@ -15,7 +15,6 @@ const cleanOptions = {
 
 module.exports = {
     entry: [
-        //"@fortawesome/fontawesome-free/js/all.js",
         "bootstrap-loader/extractStyles",
         "./src/scss/app.scss",
         "./src/index.ts"
@@ -35,6 +34,7 @@ module.exports = {
         before(app, server) {
             devServer = server;
         },
+        //writeToDisk: true,
     },
     module: {
         rules: [{
@@ -43,7 +43,7 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(ttf|eot|svg|woff|woff2)(\?[\s\S]+)?$/,
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 use: [{
                     loader: "file-loader",
                     options: {
@@ -96,7 +96,7 @@ var devServer;
 function reloadHtml() {
     const cache = {}
     const plugin = {
-        name: 'CustomHtmlReloadPlugin'
+        name: "CustomHtmlReloadPlugin"
     }
     this.hooks.compilation.tap(plugin, compilation => {
         compilation.hooks.htmlWebpackPluginAfterEmit.tap(plugin, data => {
@@ -104,7 +104,7 @@ function reloadHtml() {
             const html = data.html.source()
             // plugin seems to emit on any unrelated change?
             if (orig && orig !== html) {
-                devServer.sockWrite(devServer.sockets, 'content-changed')
+                devServer.sockWrite(devServer.sockets, "content-changed")
             }
             cache[data.outputName] = html
         })

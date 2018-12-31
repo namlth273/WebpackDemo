@@ -20,7 +20,7 @@ const cleanOptions = {
 module.exports = {
     mode: "development",
     entry: [
-        "@fortawesome/fontawesome-free/js/all.js",
+        // "@fortawesome/fontawesome-free/js/all.js",
         "bootstrap-loader/extractStyles",
         "./src/scss/app.scss",
         "./src/index.ts"
