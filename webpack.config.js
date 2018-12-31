@@ -38,7 +38,10 @@ module.exports = {
         contentBase: path.join(__dirname, "dist"),
         port: 9000,
         stats: "errors-only",
-        hot: true
+        hot: true,
+        before(app, server) {
+            devServer = server;
+        },
         //watchContentBase: true,
         //compress: true,
         //open: true,
@@ -120,6 +123,7 @@ module.exports = {
             },
             template: "src/index.html",
         }),
+        reloadHtml,
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
@@ -143,3 +147,24 @@ module.exports = {
         }),
     ]
 };
+
+//auto reload html
+var devServer;
+
+function reloadHtml() {
+    const cache = {}
+    const plugin = {
+        name: 'CustomHtmlReloadPlugin'
+    }
+    this.hooks.compilation.tap(plugin, compilation => {
+        compilation.hooks.htmlWebpackPluginAfterEmit.tap(plugin, data => {
+            const orig = cache[data.outputName]
+            const html = data.html.source()
+            // plugin seems to emit on any unrelated change?
+            if (orig && orig !== html) {
+                devServer.sockWrite(devServer.sockets, 'content-changed')
+            }
+            cache[data.outputName] = html
+        })
+    })
+}
