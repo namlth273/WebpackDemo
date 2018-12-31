@@ -1,70 +1,29 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
-const pathsToClean = [
-    "dist"
-];
-
-// the clean options to use
-const cleanOptions = {
-    root: __dirname,
-    verbose: true,
-    dry: false
-};
 
 module.exports = {
-    mode: "development",
     entry: [
-        "@fortawesome/fontawesome-free/js/all.js",
+        //"@fortawesome/fontawesome-free/js/all.js",
         "bootstrap-loader/extractStyles",
         "./src/scss/app.scss",
         "./src/index.ts"
     ],
+    devtool: "source-map",
     output: {
-        filename: "./js/[name].bundle.js",
         path: path.resolve(__dirname, "dist")
     },
-    devtool: "source-map",
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".js"]
     },
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
         port: 9000,
         stats: "errors-only",
         hot: true,
+        open: false,
         before(app, server) {
             devServer = server;
         },
-        //watchContentBase: true,
-        //compress: true,
-        //open: true,
-        //writeToDisk: true,
-    },
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                styles: {
-                    name: "main",
-                    test: /\.scss$/,
-                    chunks: "all",
-                    enforce: true
-                }
-            }
-        },
-        minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true
-            }),
-            new OptimizeCSSAssetsPlugin({})
-        ]
     },
     module: {
         rules: [{
@@ -72,29 +31,6 @@ module.exports = {
                 use: "ts-loader",
                 exclude: /node_modules/
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "sass-loader",
-                    {
-                        loader: "sass-resources-loader",
-                        options: {
-                            resources: [
-                                path.resolve(__dirname, "node_modules/bootstrap/scss/_functions.scss"),
-                                path.resolve(__dirname, "node_modules/bootstrap/scss/_variables.scss"),
-                                path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
-                                path.resolve(__dirname, "src/scss/resources.scss"),
-                            ]
-                        }
-                    },
-                ]
-            },
-            // {
-            //     test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            //     use: "url-loader?limit=10000",
-            // },
             {
                 test: /\.(ttf|eot|svg|woff|woff2)(\?[\s\S]+)?$/,
                 use: [{
@@ -109,12 +45,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new webpack.HotModuleReplacementPlugin(),
-        new MiniCssExtractPlugin({
-            filename: "styles/[name].css",
-            chunkFilename: "styles/[id].css"
-        }),
         new HtmlWebpackPlugin({
             title: "Webpack Demo",
             minify: {
