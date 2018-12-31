@@ -6,9 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-// const sassResources = require("./src/scss/resources/resources");
 
-// the path(s) that should be cleaned
 const pathsToClean = [
     "dist"
 ];
@@ -16,7 +14,6 @@ const pathsToClean = [
 // the clean options to use
 const cleanOptions = {
     root: __dirname,
-    //exclude: ["shared.js"],
     verbose: true,
     dry: false
 };
@@ -35,18 +32,17 @@ module.exports = {
     },
     devtool: "source-map",
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: [".ts", ".tsx", ".js"]
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
-        //watchContentBase: true,
-        //compress: true,
         port: 9000,
         stats: "errors-only",
+        hot: true
+        //watchContentBase: true,
+        //compress: true,
         //open: true,
         //writeToDisk: true,
-        hot: true
     },
     optimization: {
         splitChunks: {
@@ -63,7 +59,7 @@ module.exports = {
             new UglifyJsPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: true // set to true if you want JS source maps
+                sourceMap: true
             }),
             new OptimizeCSSAssetsPlugin({})
         ]
@@ -83,10 +79,7 @@ module.exports = {
                     {
                         loader: "sass-resources-loader",
                         options: {
-                            // resources: sassResources
                             resources: [
-                                // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/regular.scss"),
-                                // path.resolve(__dirname, "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_functions.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_variables.scss"),
                                 path.resolve(__dirname, "node_modules/bootstrap/scss/_mixins.scss"),
@@ -126,7 +119,6 @@ module.exports = {
                 collapseWhitespace: true
             },
             template: "src/index.html",
-            // filename: "index.html"
         }),
         new webpack.ProvidePlugin({
             $: "jquery",
