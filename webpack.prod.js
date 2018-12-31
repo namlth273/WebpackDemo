@@ -2,17 +2,6 @@ const path = require("path");
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-
-const pathsToClean = [
-    "dist"
-];
-
-const cleanOptions = {
-    root: __dirname,
-    verbose: true,
-    dry: false
-};
 
 module.exports = merge(common, {
     mode: "production",
@@ -45,7 +34,6 @@ module.exports = merge(common, {
         }]
     },
     plugins: [
-        new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new MiniCssExtractPlugin({
             filename: "styles/[hash].css",
             chunkFilename: "styles/[hash].css"
