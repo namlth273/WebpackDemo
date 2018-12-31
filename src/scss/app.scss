@@ -1,3 +1,16 @@
-// $fa-font-path: "~@fortawesome/fontawesome-free/webfonts/";
-// @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-// @import "~@fortawesome/fontawesome-free/scss/regular.scss";
+section-row {
+    @include make-row();
+    justify-content: center;
+    align-items: center;
+    background-color: $body-color;
+}
+
+section-container {
+    @include make-container();
+    display: block;
+}
+
+@include media-breakpoint-down(md) {
+    section-row {
+    }
+}

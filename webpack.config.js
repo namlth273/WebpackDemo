@@ -1,8 +1,11 @@
+const isDevMode = process.env.NODE_ENV !== "production";
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 // const sassResources = require("./src/scss/resources/resources");
 
 // the path(s) that should be cleaned
@@ -21,9 +24,9 @@ const cleanOptions = {
 module.exports = {
     mode: "development",
     entry: [
+        "@fortawesome/fontawesome-free/js/all.js",
         "bootstrap-loader/extractStyles",
         "./src/scss/app.scss",
-        "@fortawesome/fontawesome-free/js/all.js",
         "./src/index.ts"
     ],
     output: {
@@ -37,11 +40,12 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
+        //watchContentBase: true,
         //compress: true,
-        //port: 9000,
+        port: 9000,
         stats: "errors-only",
         //open: true,
-        writeToDisk: true,
+        //writeToDisk: true,
         hot: true
     },
     optimization: {
@@ -54,7 +58,15 @@ module.exports = {
                     enforce: true
                 }
             }
-        }
+        },
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
     },
     module: {
         rules: [{
@@ -65,9 +77,7 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    // "style-loader",
-                    //"file-loader",
+                    isDevMode ? "style-loader" : MiniCssExtractPlugin.loader,
                     "css-loader",
                     "sass-loader",
                     {
@@ -83,7 +93,7 @@ module.exports = {
                                 path.resolve(__dirname, "src/scss/resources.scss"),
                             ]
                         }
-                    }
+                    },
                 ]
             },
             // {
@@ -107,15 +117,13 @@ module.exports = {
         new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: "styles/[name].css",
-            chunkFilename: "styles/[id].css"
+            filename: isDevMode ? "styles/[name].css" : "styles/[name].[hash].css",
+            chunkFilename: isDevMode ? "styles/[id].css" : "styles/[id].[hash].css"
         }),
         new HtmlWebpackPlugin({
             title: "Webpack Demo",
             minify: {
-                collapseWhitespace: false
+                collapseWhitespace: true
             },
             template: "src/index.html",
             // filename: "index.html"
