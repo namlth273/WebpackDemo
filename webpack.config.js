@@ -53,7 +53,9 @@ module.exports = {
                     name: "main",
                     test: /\.scss$/,
                     chunks: "all",
-                    enforce: true
+                    enforce: true,
+                    minChunks: 1,
+                    reuseExistingChunk: true,
                 }
             }
         },

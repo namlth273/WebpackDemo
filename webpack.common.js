@@ -36,6 +36,20 @@ module.exports = {
         },
         //writeToDisk: true,
     },
+    // optimization: {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             styles: {
+    //                 name: "main",
+    //                 test: /\.s?css$/,
+    //                 chunks: "all",
+    //                 enforce: true,
+    //                 minChunks: 1,
+    //                 reuseExistingChunk: true,
+    //             }
+    //         }
+    //     },
+    // },
     module: {
         rules: [{
                 test: /\.tsx?$/,
