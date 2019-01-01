@@ -105,24 +105,24 @@ styles:
   transitions: true
 
   # Components w/ JavaScript
-  carousel: true
+  carousel: false
   modal: true
-  popover: true
-  tooltip: true
+  popover: false
+  tooltip: false
 
   # Utility classes
   utilities: true
 
 ### Bootstrap scripts
 scripts:
-  alert: true
+  alert: false
   button: true
-  carousel: true
+  carousel: false
   collapse: true
-  dropdown: true
+  dropdown: false
   modal: true
-  popover: true
-  scrollspy: true
+  popover: false
+  scrollspy: false
   tab: true
-  tooltip: true
+  tooltip: false
   util: true

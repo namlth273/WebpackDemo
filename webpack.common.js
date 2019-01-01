@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const pathsToClean = [
     "dist"
@@ -19,7 +20,7 @@ module.exports = {
         "./src/scss/app.scss",
         "./src/index.ts"
     ],
-    devtool: "source-map",
+    //devtool: "source-map",
     output: {
         path: path.resolve(__dirname, "dist")
     },
@@ -80,6 +81,7 @@ module.exports = {
             template: "src/index.html",
         }),
         reloadHtml,
+        // new BundleAnalyzerPlugin(),
         // new webpack.ProvidePlugin({
         //     $: "jquery",
         //     jQuery: "jquery",
