@@ -79,10 +79,10 @@ styles:
   buttons: true
   code: true
   forms: true
-  grid: true
+  grid: false
   images: true
   reboot: true
-  tables: true
+  tables: false
   type: true
 
   # Components

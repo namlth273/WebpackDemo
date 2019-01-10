@@ -18,6 +18,7 @@ module.exports = {
     entry: [
         "bootstrap-loader/extractStyles",
         "./src/scss/app.scss",
+        "./node_modules/knockout-postbox/build/knockout-postbox.js",
         "./src/index.ts"
     ],
     //devtool: "source-map",
@@ -53,7 +54,7 @@ module.exports = {
     // },
     module: {
         rules: [{
-                test: /\.tsx?$/,
+                test: /\.ts?$/,
                 use: "ts-loader",
                 exclude: /node_modules/
             },
