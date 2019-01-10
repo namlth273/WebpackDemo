@@ -1,6 +1,5 @@
-// import greet from "./scripts/greeting";
+require("expose-loader?ko!knockout"); 
 import { CreateRequestComponent } from "./scripts/components/createRequest";
-import * as ko from "knockout";
 
 // console.log("hello from index.ts");
 // console.log(greet("Nam"));

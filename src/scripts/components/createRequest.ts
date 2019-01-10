@@ -1,5 +1,3 @@
-import * as ko from "knockout";
-
 class CreateRequestViewModel {
     isActive: KnockoutObservable<boolean> = ko.observable(true);
     title: KnockoutObservable<number> = ko.observable(0);
