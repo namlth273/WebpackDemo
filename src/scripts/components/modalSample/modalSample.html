@@ -1,7 +1,7 @@
 <div class="form-group">
     <button class="btn btn-primary" data-bind="click: popupClick">Open Custom Popup</button>
 
-    <modal params="isModalActive: isModalActive, modalId: modalId"></modal>
+    <modal params="isModalActive: isModalActive, modalId: modalId, modalBackdropId: modalBackdropId"></modal>
 
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-bind="attr: { 'id': modalId }">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -26,4 +26,6 @@
             </div>
         </div>
     </div>
+
+    <div class="modal-backdrop fade d-none" data-bind="attr: { id: modalBackdropId }"></div>
 </div>

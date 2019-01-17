@@ -1,7 +1,9 @@
 class ModalSampleViewModel {
     modalId: KnockoutObservable<string> = ko.observable("modalSampleId");
+    modalBackdropId: KnockoutObservable<string> = ko.observable("modalBackdropId");
     modalTitle: KnockoutObservable<string> = ko.observable("Modal Sample");
-    isModalActive: KnockoutObservable<boolean> = ko.observable(false);
+    isModalActive: KnockoutObservable<boolean> = ko.observable(true);
+    
     popupClick = () => {
         var that = this;
         that.isModalActive(!that.isModalActive());

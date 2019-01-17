@@ -2,8 +2,9 @@ export class IModalOption {
     backdrop: boolean;
     keyboard: boolean;
     duration: number;
-    isActive: KnockoutObservable<boolean> ;
-    content? : string;
+    isActive: KnockoutObservable<boolean>;
+    modalBackdropId: string;
+    content?: string;
 }
 
 export interface IModal {
@@ -15,8 +16,9 @@ export class ModalOption implements IModalOption {
     backdrop: boolean = true;
     keyboard: boolean = true;
     duration: number = 100;
-    content? : string;
     isActive: KnockoutObservable<boolean>;
+    modalBackdropId: string;
+    content? : string;
 }
 
 export class Modal implements IModal {
@@ -123,6 +125,11 @@ export class Modal implements IModal {
         //var backdropWrapper = document.createElement("div"),
         var backdrop = document.getElementsByClassName("modal-backdrop")[0],
             overlay = document.querySelector(".modal-backdrop");
+
+        if (that.options.modalBackdropId) {
+            backdrop = document.getElementById(that.options.modalBackdropId);
+            console.log("custom backdrop is using");
+        }
 
         if (backdrop.classList.contains("d-none"))
             backdrop.classList.remove("d-none");

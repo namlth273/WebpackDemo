@@ -3,6 +3,7 @@ import { ModalOption, IModal, Modal } from "./bootstrapModal";
 interface IParam {
     isModalActive: KnockoutObservable<boolean>;
     modalId: KnockoutObservable<string>;
+    modalBackdropId: KnockoutObservable<string>;
 }
 
 class ModalViewModel {
@@ -13,6 +14,16 @@ class ModalViewModel {
     constructor(params: IParam) {
         var that = this;
 
+        that.initModal(params);
+        that.initEvent(params);
+    }
+
+    initModal = (params: IParam) => {
+        var that = this;
+
+        if (params.modalBackdropId) {
+            that.option.modalBackdropId = params.modalBackdropId();
+        }
         that.modalId = params.modalId;
         that.option.isActive = params.isModalActive;
         that.modal(new Modal(document.getElementById(that.modalId()), that.option));
@@ -20,6 +31,10 @@ class ModalViewModel {
         if (params.isModalActive()) {
             that.modal().open();
         }
+    }
+
+    initEvent = (params: IParam) => {
+        var that = this;
 
         params.isModalActive.subscribe((newValue) => {
             if (newValue) {
