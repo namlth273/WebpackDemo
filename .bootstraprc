@@ -79,7 +79,7 @@ styles:
   buttons: true
   code: true
   forms: true
-  grid: false
+  grid: true
   images: true
   reboot: true
   tables: false
