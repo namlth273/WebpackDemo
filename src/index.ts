@@ -1,5 +1,7 @@
 require("expose-loader?ko!knockout"); 
 import { CreateRequestComponent } from "./scripts/components/createRequest";
+import { ModalComponent } from "./scripts/components/modal/modal";
+import { ModalSampleComponent } from "./scripts/components/modalSample/modalSample";
 
 // console.log("hello from index.ts");
 // console.log(greet("Nam"));
@@ -20,5 +22,7 @@ class IndexViewModel {
     }
 }
 
+ko.components.register("modal", new ModalComponent());
+ko.components.register("modal-sample", new ModalSampleComponent());
 ko.components.register("create-request", new CreateRequestComponent());
 ko.applyBindings(new IndexViewModel());
