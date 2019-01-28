@@ -47,6 +47,27 @@ section-container {
     z-index: 99;
 }
 
+.scope-progress-bar-bottom {
+    background: lightgreen;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    position: absolute;
+    width: 100%;
+    top: calc(50% + 15px);
+    z-index: 99;
+}
+
+.bottom-description {
+    flex: 1 1 0;
+    width: 0;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 .scope-progress-bar-main {
     background: transparent;
     display: flex;

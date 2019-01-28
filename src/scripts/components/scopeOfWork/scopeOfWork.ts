@@ -8,6 +8,7 @@ interface IScopeOfWorkItem {
     isLastActive: KnockoutObservable<boolean>;
     isOnly: KnockoutObservable<boolean>;
     isCenter: KnockoutObservable<boolean>;
+    description: string;
 }
 
 enum EnumTransportMode {
@@ -19,7 +20,7 @@ enum EnumTransportMode {
 class ScopeOfWorkViewModel {
     title: KnockoutObservable<string> = ko.observable("Scope Of Work");
     transportMode: KnockoutObservable<EnumTransportMode> = ko.observable(EnumTransportMode.Air);
-    items: KnockoutObservableArray < IScopeOfWorkItem > = ko.observableArray([{
+    items: KnockoutObservableArray<IScopeOfWorkItem> = ko.observableArray([{
         index: 0,
         name: "item1",
         isFirstOfType: ko.observable(true),
@@ -28,7 +29,8 @@ class ScopeOfWorkViewModel {
         isFirstActive: ko.observable(false),
         isLastActive: ko.observable(false),
         isOnly: ko.observable(false),
-        isCenter: ko.observable(false)
+        isCenter: ko.observable(false),
+        description: "Sender Abc Edf"
       },
       {
         index: 1,
@@ -39,7 +41,8 @@ class ScopeOfWorkViewModel {
         isFirstActive: ko.observable(true),
         isLastActive: ko.observable(false),
         isOnly: ko.observable(false),
-        isCenter: ko.observable(true)
+        isCenter: ko.observable(true),
+        description: "Sender"
       },
       {
         index: 2,
@@ -50,7 +53,8 @@ class ScopeOfWorkViewModel {
         isFirstActive: ko.observable(false),
         isLastActive: ko.observable(true),
         isOnly: ko.observable(false),
-        isCenter: ko.observable(false)
+        isCenter: ko.observable(false),
+        description: "Sender"
       },
       {
         index: 3,
@@ -61,7 +65,8 @@ class ScopeOfWorkViewModel {
         isFirstActive: ko.observable(false),
         isLastActive: ko.observable(false),
         isOnly: ko.observable(false),
-        isCenter: ko.observable(false)
+        isCenter: ko.observable(false),
+        description: "Receiver"
       }
     ]);
 
@@ -118,18 +123,20 @@ class ScopeOfWorkViewModel {
           x.isLastActive(false);
         });
     
-        if (currentItem.index > 0 && currentItem.index < that.lastActiveItem().index) {
+        if (that.lastActiveItem() && currentItem.index > 0 && currentItem.index < that.lastActiveItem().index) {
           for (var _i = 0; _i < currentItem.index; _i++) {
             var _item = that.items()[_i];
             _item.isActive(false);
           }
         }
     
-        that.firstActiveItem().isFirstActive(true);
-        that.lastActiveItem().isLastActive(true);
+        that.firstActiveItem() && that.firstActiveItem().isFirstActive(true);
+        that.lastActiveItem() && that.lastActiveItem().isLastActive(true);
     
-        for (var _i = that.firstActiveItem().index + 1; _i < that.lastActiveItem().index; _i++) {
-          that.items()[_i].isActive(true);
+        if (that.firstActiveItem() && that.lastActiveItem()) {
+          for (var _i = that.firstActiveItem().index + 1; _i < that.lastActiveItem().index; _i++) {
+            that.items()[_i].isActive(true);
+          }
         }
     
         if (that.activeItems().length === 1) {

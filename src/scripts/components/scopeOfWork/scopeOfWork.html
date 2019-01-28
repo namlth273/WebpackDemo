@@ -47,5 +47,11 @@
             </div>
             <!--/ko-->
         </div>
+        <div class="scope-progress-bar-bottom" data-bind="foreach: { data: items, as: 'item' }">
+            <span class="bottom-description" data-bind="text: description"></span>
+            <!--ko if: !isLastOfType()-->
+            <span class="bottom-description"></span>
+            <!--/ko-->
+        </div>
     </div>
 </div>
