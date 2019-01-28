@@ -1,3 +1,7 @@
+$background-color-lightyellow: lightyellow;
+$active-color: #E44844;
+$inactive-color: #B5C3D6;
+
 section-row {
     @include make-row();
     justify-content: center;
@@ -10,7 +14,298 @@ section-container {
     display: block;
 }
 
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.scope-progress-bar {
+    background: $background-color-lightyellow;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 150px;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.scope-progress-bar-top {
+    background: lightgreen;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 50px);
+    z-index: 99;
+}
+
+.scope-progress-bar-main {
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 33px;
+
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 50px);
+    z-index: 100;
+    height: 100px;
+}
+
+.step {
+    flex: 1 1 0;
+    width: 0;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-main {
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.step-main:before,
+.step-main:after {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 1;
+    border: 2px solid $inactive-color;
+    position: absolute;
+}
+
+.step-main.active:before {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 0;
+    border: 2px solid $active-color;
+    position: absolute;
+    left: -1px;
+    right: 50%;
+}
+
+.step-main:before {
+    left: -1px;
+    right: 50%;
+}
+
+.step-main:after {
+    left: 50%;
+    right: -1px;
+}
+
+.step-main.first-type:before {
+    border: none !important;
+}
+
+.step-main.last-type:after {
+    border: none !important;
+}
+
+.step-main.active.first:before {
+    border: 2px solid $inactive-color;
+}
+
+.step-main.active.last:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-main.first-type:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-main.active:after {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 0;
+    border: 2px solid $active-color;
+    position: absolute;
+    left: 50%;
+    right: -1px;
+}
+
+.step-main.active.only:before,
+.step-main.active.only:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    color: $inactive-color;
+    font-size: 1.5rem;
+}
+
+.step-icon {
+    background: $background-color-lightyellow;
+}
+
+.step-main.active {
+    .step-icon {
+        background: $background-color-lightyellow;
+        color: $active-color;
+    }
+}
+
+.top-icon {
+    flex: 1 1 0;
+    width: 0;
+    font-size: 2rem;
+    //margin-bottom: 0.25rem;
+    color: $inactive-color;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+
+    .active {
+        color: $active-color;
+    }
+}
+
+.top-icon.active {
+    color: $active-color;
+}
+
+.secondary-step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.step-icon-secondary {
+    color: $inactive-color;
+    font-size: 1rem;
+}
+
+.step-icon-secondary.active {
+    color: $active-color;
+}
+
+.secondary-step-top {
+    display: flex;
+    position: absolute;
+    top: -250%;
+    font-size: 2rem;
+    color: $inactive-color;
+
+    .active {
+        color: $active-color;
+    }
+}
+
+/*
+** step-main-secondary
+*/
+
+.step-main-secondary {
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.step-main-secondary:before,
+.step-main-secondary:after {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 1;
+    border: 2px solid $inactive-color;
+    position: absolute;
+}
+
+.step-main-secondary:before {
+    left: -1px;
+    right: 50%;
+}
+
+.step-main-secondary:after {
+    left: 50%;
+    right: -1px;
+}
+
+.step-main-secondary.active:before {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 0;
+    border: 2px solid $active-color;
+    position: absolute;
+    left: -1px;
+    right: 50%;
+}
+
+.step-main-secondary.active.first:before {
+    border: 2px solid $inactive-color;
+}
+
+.step-main-secondary.active.last:before {
+    border: 2px solid $inactive-color;
+}
+
+.step-main-secondary.first-type:before {
+    border: none !important;
+}
+
+.step-main-secondary.last-type:after {
+    border: none !important;
+}
+
+.step-main-secondary.active.last:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-main-secondary.first-type:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-main-secondary.active:after {
+    content: "";
+    top: calc(50% - 2px);
+    z-index: 0;
+    border: 2px solid $active-color;
+    position: absolute;
+    left: 50%;
+    right: -1px;
+}
+
+.step-main-secondary.active.only:before,
+.step-main-secondary.active.only:after {
+    border: 2px solid $inactive-color;
+}
+
+.step-main-secondary.active .step-icon-secondary {
+    color: $active-color;
+}
+
+.step-main-secondary.active.last .step-icon-secondary {
+    color: $inactive-color;
+}
+
 @include media-breakpoint-down(md) {
-    section-row {
+    section-row {}
+}
+
+@include media-breakpoint-down(xs) {
+    .step,
+    .top-icon {
+        min-width: 33%;
+        flex: unset;
     }
 }

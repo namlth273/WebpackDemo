@@ -1,0 +1,51 @@
+<h1 data-bind="text: title"></h1>
+<button data-bind="click: changeToAir" class="btn btn-primary">Air</button>
+<button data-bind="click: changeToSea" class="btn btn-secondary">Sea</button>
+<div class="progress-container">
+    <div class="scope-progress-bar">
+        <div class="scope-progress-bar-top" data-bind="foreach: { data: items, as: 'item' }">
+            <div class="top-icon">
+                <i class="fa" data-bind="css: {
+                                                active: isActive,
+                                                'fa-industry': isFirstOfType() || isLastOfType,
+                                                'fa-pallet': !isFirstOfType() && !isLastOfType(),
+                                                'fa-flip-horizontal': isLastOfType() }"></i>
+            </div>
+            <!--ko if: !isLastOfType()-->
+            <div class="top-icon">
+                <i class="fa" data-bind="css: {
+                                                'active': isActive() && !isLastActive(),
+                                                'fa-plane': isCenter() && $parent.transportMode() === 1,
+                                                'fa-ship': isCenter() && $parent.transportMode() === 2,
+                                                'fa-truck': !isCenter() }"></i>
+            </div>
+            <!--/ko-->
+        </div>
+        <div class="scope-progress-bar-main" data-bind="foreach: { data: items, as: 'item' }">
+            <div class="step">
+                <div class="step-main" role="button" data-bind="attr: { id: item.name },
+                            click: $parent.stepClick.bind($parent, item),
+                            css: { 
+                                'first-type': isFirstOfType,
+                                'last-type': isLastOfType,
+                                'active': isActive,
+                                'first': isFirstActive,
+                                'last': isLastActive,
+                                'only': isOnly }
+                            ">
+                    <i class="step-icon far" data-bind="css: { 'fa-square': !item.isActive(), 'fa-check-square': item.isActive() }"></i>
+                </div>
+            </div>
+            <!--ko if: !isLastOfType()-->
+            <div class="step">
+                <div class="step-main-secondary" data-bind="css: {
+                                                                'active': isActive,
+                                                                'only': isOnly,
+                                                                'last': isLastActive }">
+                    <i class="fa fa-circle step-icon-secondary"></i>
+                </div>
+            </div>
+            <!--/ko-->
+        </div>
+    </div>
+</div>
